@@ -14,20 +14,24 @@ const socket = io('https://fahoot.glitch.me/');
 
 // Get the player object
 let player = GetPlayer();
-let clicked = false; 
-// Select the button element
+let clicked = false;
 let btn = document.querySelector("[data-acc-text='btn']");
 
-// Add event listeners for both click and touchend events
 btn.addEventListener("click", sendName);
-btn.addEventListener("touchend", sendName);
+btn.addEventListener("touchstart", sendName, { passive: false });
+btn.addEventListener("touchend", sendName, { passive: false });
 
-// Function to send the player's name
-function sendName() {
-	clicked = true;
-    let name = player.GetVar("name"); // Get the player's name
-    if (name !== '') { // Check if the name is not empty
-        socket.emit("find", { name: name }); // Emit the "find" event with the name
+function sendName(event) {
+    event.preventDefault();
+    if (clicked) return;
+    clicked = true;
+    try {
+        let name = player.GetVar("name");
+        if (name !== '') {
+            socket.emit("find", { name: name });
+        }
+    } catch (error) {
+        console.error("Error in sendName:", error);
     }
 }
 
