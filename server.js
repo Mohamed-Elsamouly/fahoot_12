@@ -31,7 +31,7 @@ io.on('connection', (socket) => {
     // Listen for "find" event (player name submission)
     socket.on("find", (e) => {
         let session = sessions.find(s => s.players.length < 4);
-        console.log(socket.id);
+
         // If no session with available slots exists, create a new one
         if (!session) {
             const newSessionId = getRandomSessionId(sessions);
