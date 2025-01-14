@@ -45,6 +45,7 @@ io.on('connection', (socket) => {
             io.to(socket.id).emit("message", { message: true });
             console.log("This name has been taken. Please choose another name");
         } else {
+            console.log(e.name);
             session.players.push({ name: e.name, socketId: socket.id });
         };
         // Add the player to the session
